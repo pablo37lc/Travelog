@@ -1,0 +1,44 @@
+.row {
+	margin-bottom: 0;
+}
+
+#sourceImage {
+	display: none;
+}
+
+.image-preview {
+	height: 475px;
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+	position: relative;
+}
+
+.image-preview > div {
+	width: 475px;
+	height: 475px;
+	border: 1px dashed black;
+	position: absolute;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#canvas {
+	object-fit: contain;
+	z-index: 3;
+}
+
+#brightnessSlider, #contrastSlider, #grayscaleSlider, #saturationSlider, #sepiaSlider, #hueRotateSlider {
+	width: 225px;
+}
+.row {
+	width: 475px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn {
+	font-size: 13px;
+	margin: 2px;
+}

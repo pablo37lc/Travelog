@@ -1,0 +1,14 @@
+path:hover{
+  fill:#90CAF9;
+}
+path.selected{
+  fill:#1E88E5!important;
+}
+.region{
+  transition: all 200ms ease-in-out;
+}
+path {
+  fill: white;
+  stroke: black;
+  stroke-width: 2;
+}

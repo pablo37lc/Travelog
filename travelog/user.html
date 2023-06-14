@@ -1,0 +1,258 @@
+<?php
+session_start();
+$login_id = $_SESSION['id'];
+
+$id = $_GET['id'];
+
+if($id == "") {
+    $id = $login_id;
+}
+
+$image;
+$memo;
+$login = false;
+if($id == $login_id) {
+    $login = true;
+}
+
+$con = mysqli_connect("localhost","root","qwer","travelog");
+
+$query = "SELECT * FROM member WHERE id = '$id'";
+$statement = mysqli_prepare($con, $query);
+
+$response = array();
+
+$result = $con->query($query);
+while($row = $result->fetch_assoc()) {
+    $image = $row["image"];
+    $memo = $row["memo"];
+    }
+
+?>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="//code.jquery.com/jquery.min.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+    
+
+</head>
+
+<body>
+    <div id="header">
+        <div id="header-left">
+            <input type="image" src="./img/map.png" alt="" onclick="korea()">
+            <input type="text" id="location" value="">
+            <input type="image" src="./img/search.png" alt="" onclick="search()">
+
+        </div>
+        
+        <div id="header-center" onclick="korea()">
+            <div>
+                <input type="image" src="./img/logo.png" height="45px"  alt="로고">
+                <input type="image" src="./img/logoText.png" height="45px" width ="160px" style="margin-top:8px; translate: -8px;"  alt="로고">
+            </div>
+        </div>
+        
+        <div id="header-right" style="width: 200px;">
+            <div>
+                <input type="image" src="./img/photo.png" alt="" onclick="add('<?php echo $login_id; ?>')">
+                <input type="image" src="./img/message.png" alt="" onclick="chat('<?php echo $login_id; ?>')">
+                <input type="image" src="./img/user.png" alt="" onclick="user('<?php echo $login_id; ?>')">
+            </div>
+        </div>        
+    </div>
+
+    <div id="header-modal">
+        <div id="not_logined">
+            <div>
+                <a href="login.html">로그인</a>
+            </div>
+            <div>
+                <a href="signup.html">회원가입</a>
+            </div>
+        </div>
+        <div id="logined">
+            <div>
+                <a id="user_display" href="">계정화면</a>
+            </div>
+            <div>
+                <a id="user_edit" href="">정보수정</a>
+            </div>
+            <div>
+                <a id="sign_out" href="">로그아웃</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+
+            <div style="height: 30px;"></div>
+
+            <div id="profile">
+                <div id="profile-image">
+                    <img class="profile-image user-image" id="prof-image" alt="click to Upload Image" src="<?php echo $image;?>">                    
+                </div>
+
+                <div id="profile-meta">
+                    <div id="id">
+                        <input id="profile-id" type="text" value="<?php echo $id;?>" disabled>   
+
+                        <?php 
+                        if($login == true) {
+                            echo "<input class='profile-button' id='profile-setting' type='image' src='./img/edit.png' alt='' onclick='editprofile()'>";
+                        }
+                        else {
+                            echo "<input class='profile-button' id='profile-message' type='image' src='./img/message.png' alt='' onclick='chat(".$row["id"].")'>";
+                        }
+                        ?>
+                        
+                    </div>
+                    <form method="post" id="user-edit" enctype="multipart/form-data"> 
+                        <input type="file" name="image" style="display: none" id="image-input" onchange="PreviewImage()" disabled>
+                        <input type="hidden" name="id" id="input-id">
+                        <textarea style="display: none ;" name="memo" id="input-memo"></textarea>
+                    </form>
+                    
+                    <div id="memo">
+                        <textarea name="" id="profile-memo" onchange="editmemo()" onkeydown="return limitLines(this, event)" cols="30" rows="5"  disabled><?php echo $memo;?></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="board">
+                <?php
+                $query = "SELECT * FROM post WHERE id = '$id' AND NOT(private = 1) ORDER BY reg_date DESC limit 0, 9";
+                if ($login) {
+                    $query = "SELECT * FROM post WHERE id = '$id' ORDER BY reg_date DESC limit 0, 9";
+                }
+                $statement = mysqli_query($con, $query);
+
+                if ($statement->num_rows > 0) {
+                    while($row = $statement->fetch_assoc()) {
+                        echo "<a href=post_view4.php?idx=".$row["idx"].">
+                            <img src='".$row["image"]."' alt=''>
+                          </a>";
+                    }
+                }
+                ?>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function search() {
+            var region = document.getElementById("location").value;
+            location.href="main.html?region=" + region;
+        }
+
+        function limitLines(obj, e) {
+            let numberOfLines = (obj.value.match(/\n/g) || []).length + 1;
+            let maxRows = obj.rows;
+            if (e.which === 13 && numberOfLines === maxRows) {
+                return false;
+            }
+        }
+
+        var edittable = true;
+        const edit_button = document.getElementById("profile-setting");
+
+        function editprofile() {            
+            if (edittable) {
+                edit_button.src = "./img/save.png";
+                document.querySelector('#profile-memo').disabled = false;
+                document.querySelector('#image-input').disabled = false;
+                document.getElementById("profile-memo").style.border = "thin dashed black";
+                document.getElementById("prof-image").style.border = "thin dashed black";
+                edittable = false;
+            }
+            else {
+                edit_button.src = "./img/edit.png";
+                document.querySelector('#profile-memo').disabled = true;
+                document.querySelector('#image-input').disabled = true;
+                document.getElementById("profile-memo").style.border = "none";
+                document.getElementById("prof-image").style.border = "none";
+                var form = $('form')[0];
+                var formData = new FormData(form);
+                formData.append('image', $('input[type=file]')[0].files[0]); 
+
+                $.ajax({
+                    url: 'user_update.php',
+                    data: formData,
+                    type: 'POST',
+                    contentType: false,
+                    processData: false,
+                    success: function () {
+                    }
+                });
+                edittable = true;
+            }
+        }
+
+        function editid() {
+            document.getElementById("input-id").value = document.getElementById("profile-id").value;
+        }
+        function editmemo() {
+            document.getElementById("input-memo").value = document.getElementById("profile-memo").value;
+        }
+
+        const pro_image = document.getElementById("prof-image");
+        const image_input = document.getElementById("image-input");
+
+        pro_image.addEventListener("click", () => {
+            image_input.click();
+        });
+
+        function PreviewImage() {
+            var preview = new FileReader();
+            preview.onload = function (e) {
+                pro_image.src = e.target.result;
+            };
+            preview.readAsDataURL(image_input.files[0]);
+        };
+
+        var page = 0;
+        let size = 9;
+
+        var id = document.getElementById("profile-id").value;
+
+        window.addEventListener("scroll", function(){
+            const isScrollEnd = window.innerHeight + window.scrollY + 10 > document.body.offsetHeight;
+            
+            if (isScrollEnd) {
+                page += size;
+                $.ajax({
+                    url : 'user.php',
+                    data : {id : id,
+                            post_start : page,
+                            size : size,
+                            login : "<?php echo $login; ?>"},
+                    type : 'POST'
+                }).done(function(data){			
+                    document.getElementById("board").innerHTML += data;
+                });
+
+            }
+        });
+
+        function chat(id) {
+            location.href = "main.html";
+        }
+
+        window.onload = editid();
+        window.onload = editmemo();
+
+    </script>
+    <script type="text/javascript" src="common.js"></script>
+</body>
+</html>

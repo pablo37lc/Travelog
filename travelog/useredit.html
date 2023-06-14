@@ -1,0 +1,272 @@
+<?php
+    session_start();
+    $login_id = $_SESSION['id'];
+
+    $con = mysqli_connect("localhost","root","qwer","travelog");
+    $query = "SELECT * FROM member WHERE id = '".$login_id."'";
+    $result = $con->query($query);
+
+    while($row = $result->fetch_assoc())
+    {
+        $id = $row["id"];
+        $image = $row["image"];
+        $memo = $row["memo"];
+        $question = $row["question"];
+        $answer = $row["answer"];
+    }
+
+?>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="//code.jquery.com/jquery.min.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+    
+</head>
+
+<body>
+    <div id="header">
+        <div id="header-left">
+            <input type="image" src="./img/map.png" alt="" onclick="korea()">
+            <input type="text" id="location" value="">
+            <input type="image" src="./img/search.png" alt="" onclick="search()">
+
+        </div>
+        
+        <div id="header-center" onclick="korea()">
+            <div>
+                <input type="image" src="./img/logo.png" height="45px"  alt="로고">
+                <input type="image" src="./img/logoText.png" height="45px" width ="160px" style="margin-top:8px; translate: -8px;"  alt="로고">
+            </div>
+        </div>
+        
+        <div id="header-right" style="width: 200px;">
+            <div>
+                <input type="image" src="./img/photo.png" alt="" onclick="add('<?php echo $login_id; ?>')">
+                <input type="image" src="./img/message.png" alt="" onclick="chat('<?php echo $login_id; ?>')">
+                <input type="image" src="./img/user.png" alt="" onclick="user('<?php echo $login_id; ?>')">
+            </div>
+        </div>        
+    </div>
+
+    <div id="header-modal">
+        <div id="not_logined">
+            <div>
+                <a href="login.html">로그인</a>
+            </div>
+            <div>
+                <a href="signup.html">회원가입</a>
+            </div>
+        </div>
+        <div id="logined">
+            <div>
+                <a id="user_display" href="">계정화면</a>
+            </div>
+            <div>
+                <a id="user_edit" href="">정보수정</a>
+            </div>
+            <div>
+                <a id="sign_out" href="">로그아웃</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div id="center">
+
+            <div style="height: 40px;"></div>
+
+            <table>
+                <tr>
+                    <td class = "table_left"><br></td>
+                    <td><br></td>
+                </tr>
+                <tr>
+                    <td class="table" >아이디</td>
+                    <td> <input class="sign" type="text" name="id" id="sign_id" value = "<?php echo $id; ?>" disabled></td>
+                </tr>
+                <tr>
+                <td class = "table_left"><br></td>
+                </tr>
+                <tr>
+                    <td class="table" >사진</td>
+                    <td class = "table_image">
+                        <img id="pre-image" src="<?php echo $image; ?>" alt="이미지 추가 클릭&nbsp&nbsp&nbsp" >
+                    </td>
+                </tr>
+                <tr>
+                    <td class = "table_left"><br></td>
+                </tr>
+                <tr>
+                    <td class="table" >메모</td>
+                    <td> <textarea name="" id="sign_memo" onkeydown="return limitLines(this, event)" cols="30" rows="5"><?php echo $memo; ?></textarea></td>
+                </tr>
+                <tr>
+                    <td class = "table_left"><br></td>
+                </tr>
+                <tr>
+                    <td class="table" >비밀번호</td>
+                    <td> <input class="sign" id="sign_pw" type="password" name="pw" value = ""></td>
+                </tr>
+                <tr>
+                <td class = "table_left"><br></td>
+                </tr>
+                <tr>
+                    <td class="table" >비밀번호 확인</td>
+                    <td> <input class="sign" id="sign_pw_re" type="password" name="pw_re" value = "" onchange="checkpw()"></td>
+                </tr>
+
+                <tr>
+                    <td class = "table_left"><br></td>
+                </tr>
+
+                <tr>
+                    <td class="table" >비밀번호찾기 질문</td>
+                    <td> <input class="sign" id="sign_pw_q" type="text" name="pw_q" value = "<?php echo $question; ?>"></td>
+                </tr>
+                <tr>
+                    <td class = "table_left"><br></td>
+                </tr>
+
+                <tr>
+                    <td class="table" >비밀번호찾기 답변</td>
+                    <td> <input class="sign" id="sign_pw_a" type="text" name="pw_a" value = "<?php echo $answer; ?>"></td>
+                </tr>
+
+                <tr>
+                    <td class = "table_left"><br></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="table_button">
+                            <button class="button" onclick="sign_del()" style="background-color: lightgrey;">회원탈퇴</button>
+                            <button class="button" onclick="sign_edit()" style="margin-left:20px">정보수정</button>
+                        </div>
+                        
+                    </td>
+                </tr>
+
+            </table>
+
+            <form method="post" id="signup-input" enctype="multipart/form-data"> 
+                <input type="hidden" name="id" id="input-id">
+                <input type="file" name="image" id="image-input" onchange="PreviewImage()" value="" style="display: none ;" accept="image/png, image/jpeg">
+                <textarea style="display: none ;" name="memo" id="input-memo"></textarea>
+                <input type="hidden" name="pw" id="input-pw">
+                <input type="hidden" name="pw-q" id="input-pw-q">
+                <input type="hidden" name="pw-a" id="input-pw-a">
+            </form>
+
+        </div>
+
+
+    </div>
+
+    <script>
+        function limitLines(obj, e) {
+            let numberOfLines = (obj.value.match(/\n/g) || []).length + 1;
+            let maxRows = obj.rows;
+            if (e.which === 13 && numberOfLines === maxRows) {
+                return false;
+            }
+        }
+
+        const pro_image = document.getElementById("pre-image");
+        const image_input = document.getElementById("image-input");
+
+        pro_image.addEventListener("click", () => {
+            image_input.click();
+        });
+
+        function PreviewImage() {
+            var preview = new FileReader();
+            preview.onload = function (e) {
+                pro_image.src = e.target.result;
+            };
+            preview.readAsDataURL(image_input.files[0]);
+        };
+
+
+        const sign_id = document.getElementById("sign_id");
+        const sign_pw_re = document.getElementById("sign_pw_re");
+
+        function checkpw() {
+            if(sign_pw.value != sign_pw_re.value) {
+                sign_pw_re.value = "";
+                sign_pw_re.placeholder = "비밀번호가 다릅니다";
+            }
+        }
+
+        function sign_edit() {
+            var nullcheck = true;
+            
+            const sign_pw = document.getElementById("sign_pw");
+            const sign_pw_q = document.getElementById("sign_pw_q");
+            const sign_pw_a = document.getElementById("sign_pw_a");
+
+            if(sign_id.value == "") {
+                sign_id.placeholder = "입력필수";
+                nullcheck = false;
+            }
+            if(sign_pw.value == "") {
+                sign_pw.placeholder = "입력필수";
+                nullcheck = false;
+            }
+            if(sign_pw_re.value == "") {
+                sign_pw_re.placeholder = "입력필수";
+                nullcheck = false;
+            }
+            if(sign_pw_q.value == "") {
+                sign_pw_q.placeholder = "입력필수";
+                nullcheck = false;
+            }
+            if(sign_pw_a.value == "") {
+                sign_pw_a.placeholder = "입력필수";
+                nullcheck = false;
+            }
+
+            if(nullcheck && (sign_pw.value == sign_pw_re.value)) {
+                document.getElementById("input-id").value = sign_id.value;
+                document.getElementById("input-memo").value = document.getElementById("sign_memo").value;
+                document.getElementById("input-pw").value = sign_pw.value;
+                document.getElementById("input-pw-q").value = sign_pw_q.value;
+                document.getElementById("input-pw-a").value = sign_pw_a.value;
+
+                var form = $('form')[0];
+                var formData = new FormData(form);
+                formData.append('image', $('input[type=file]')[0].files[0]); 
+
+                $.ajax({
+                    url: 'user_edit.php',
+                    data: formData,
+                    type: 'POST',
+                    contentType: false,
+                    processData: false,
+                    success: function () {
+                        alert("수정하였습니다.");
+                    }
+                });
+                edittable = true;
+            }
+        }
+
+        function sign_del() {
+                document.getElementById("input-id").value = sign_id.value;
+
+                var form = document.getElementById("signup-input");
+                form.action = "user_del.php";
+                form.mothod = "post";
+                form.submit();
+            }
+    </script>
+    <script type="text/javascript" src="common.js"></script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="//code.jquery.com/jquery.min.js"></script>
+
+    <link href="style.css" rel="stylesheet">
+    
+</head>
+
+<body>
+    <div id="header">
+        <div id="header-left">
+            <input type="image" src="./img/map.png" alt="" onclick="korea()">
+            <input type="text" id="location" value="">
+            <input type="image" src="./img/search.png" alt="" onclick="search()">
+        </div>
+        
+        <div id="header-center" onclick="korea()">
+            <div>
+                <input type="image" src="./img/logo.png" height="45px"  alt="로고">
+                <input type="image" src="./img/logoText.png" height="45px" width ="160px" style="margin-top:8px; translate: -8px;"  alt="로고">
+            </div>
+        </div>
+        
+        <div id="header-right" style="width: 200px;">
+            <div>
+                <input type="image" src="./img/photo.png" alt="" onclick="add('')">
+                <input type="image" src="./img/message.png" alt="" onclick="chat('')">
+                <input type="image" src="./img/user.png" alt="" onclick="user('')">
+            </div>
+        </div>        
+    </div>
+
+    <div id="header-modal">
+        <div id="not_logined">
+            <div>
+                <a href="login.html">로그인</a>
+            </div>
+            <div>
+                <a href="signup.html">회원가입</a>
+            </div>
+        </div>
+        <div id="logined">
+            <div>
+                <a id="user_display" href="">계정화면</a>
+            </div>
+            <div>
+                <a id="user_edit" href="">정보수정</a>
+            </div>
+            <div>
+                <a id="sign_out" href="">로그아웃</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div id="center">
+
+            <div style="height: 10px;"></div>
+
+            <?php
+                $con = mysqli_connect("localhost","root","qwer","travelog");
+                    
+                $query = "SELECT * FROM post ORDER BY RAND() DESC LIMIT 0, 7";
+                $statement = mysqli_query($con, $query);
+
+                $count = mysqli_num_rows($statement);
+
+                if($count > 2) {
+                    $width = $count*600;
+                
+                    if ($statement->num_rows > 0) {
+                        echo "<div class='slider' style='width: 500px;'>
+
+                        <div class='image-box' style=' width:".$width."px; animation: bannermove ".(18+rand(-2,2)) ."s linear infinite ;'>
+                        ";
+                
+                        while($row = $statement->fetch_assoc()) {
+                            echo "<a href=post_view4.php?idx=".$row["idx"].">
+                                <img src='".$row["image"]."' alt=''>
+                              </a>";
+                        
+                        }
+                        
+                    }
+                    $statement = mysqli_query($con, $query);
+                
+                    if ($statement->num_rows > 0) {
+                
+                        while($row = $statement->fetch_assoc()) {
+                
+                            echo "<a class='clone' href=post_view4.php?idx=".$row["idx"].">
+                                <img src='".$row["image"]."' alt=''>
+                              </a>";
+                        }
+                        
+                    }
+                    echo "</div></div>";
+                }
+            ?>
+
+
+            <table>
+                <tr>
+                    <td class = "table_left"><br></td>
+                    <td><br></td>
+                </tr>
+                <tr>
+                    <td class="table" >아이디</td>
+                    <td> <input class="sign" type="text" name="id" id="sign_id" value = ""></td>
+                </tr>
+            
+                <tr>
+                    <td class = "table_left"><br></td>
+                </tr>
+                
+                <tr>
+                    <td class="table" >비밀번호</td>
+                    <td> <input class="sign" id="sign_pw" type="password" name="pw" value = ""></td>
+                </tr>
+                <tr>
+                <td class = "table_left"><br></td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2">
+                        <div class="table_button">
+                            <button class="button" style="translate: 50%;" onclick="login()">로그인</button>
+                            <button class="button" style="translate: 100% 100%; height: 30px; border: #0070C0;" onclick="location.href='lostpw.html'">비밀번호찾기</button>
+                        </div>
+                        
+                    </td>
+                </tr>
+            </table>
+
+            <div style="height: 10px;"></div>
+
+            <?php
+                $con = mysqli_connect("localhost","root","qwer","travelog");
+                    
+                $query = "SELECT * FROM post ORDER BY reg_date DESC LIMIT 0, 7";
+                $statement = mysqli_query($con, $query);
+
+                $count = mysqli_num_rows($statement);
+
+                if($count > 2) {
+                    $width = $count*600;
+                
+                    if ($statement->num_rows > 0) {
+                        echo "<div class='slider' style='width: 500px;'>
+
+                        <div class='image-box' style=' width:".$width."px; animation: bannermove ".(18+rand(-2,2)) ."s linear infinite reverse ;'>
+                        ";
+                
+                        while($row = $statement->fetch_assoc()) {
+                            echo "<a href=post_view4.php?idx=".$row["idx"].">
+                                <img src='".$row["image"]."' alt=''>
+                              </a>";
+                        
+                        }
+                        
+                    }
+                    $statement = mysqli_query($con, $query);
+                
+                    if ($statement->num_rows > 0) {
+                
+                        while($row = $statement->fetch_assoc()) {
+                
+                            echo "<a href=post_view4.php?idx=".$row["idx"].">
+                                <img src='".$row["image"]."' alt=''>
+                              </a>";
+                        }
+                        
+                    }
+                    echo "</div></div>";
+                }
+            ?>
+
+        </div>
+
+
+    </div>
+
+    <script>
+        function login() {
+            var nullcheck = true;
+            const sign_id = document.getElementById("sign_id");
+            const sign_pw = document.getElementById("sign_pw");
+
+            if(sign_id.value == "") {
+                sign_id.placeholder = "입력필수";
+                nullcheck = false;
+            }
+            if(sign_pw.value == "") {
+                sign_pw.placeholder = "입력필수";
+                nullcheck = false;
+            }
+
+            if(nullcheck) {
+                $.ajax({
+                    url : 'login.php',
+                    data : {id : sign_id.value,
+                            pw : sign_pw.value},
+                    type : 'POST'
+                }).done(function(data){			
+                    if(data == "done") {
+                        location.href = "main.html";
+                    }
+                    else {
+                        sign_pw.value = "";
+                        sign_pw.placeholder = data;
+                    }
+                });
+            }
+        }
+    </script>
+    <script type="text/javascript" src="common.js"></script>
+</body>
+</html>

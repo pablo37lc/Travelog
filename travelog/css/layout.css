@@ -1,0 +1,525 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+/*전체*/
+*{
+  top: 0;
+  left: 0;
+}
+/*상단바 내비*/  
+
+/*메인 바디 전체 영역*/
+body{
+  background: white;
+  min-height: 100%;
+}
+.body-container{  
+  width: 70%;  
+  margin-top: 110px; 
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 700px;
+  margin-left: 15%;
+  gap: 20px;
+}
+.temp-box{
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  
+  
+  border-radius: 20px 20px 20px 20px;
+}
+/*왼쪽  그리드 나누기*/
+.box-one{
+  display: flex;
+  background-color: #A8C0D6;
+  flex-direction: column;/*세로정렬*/
+  border: none;/*테두리 지우고 각각*/  
+}
+.box-one > div:first-child{
+  width: 100%;
+  flex: 1;  
+}
+.box-one > div:last-child{
+  width: 100%;
+  flex: 9;
+  overflow: auto;
+}
+a:hover {
+  color:whitesmoke;
+  background-color: black;
+}
+li:hover {
+  color:whitesmoke;
+  background-color: #BECFDF;
+}
+.box-two{  
+  display: flex;
+  flex-direction: column;
+  border: none; 
+  
+}
+.box-two > div:first-child{
+  border-radius: 20px 20px 0px 0px;
+  width: 100%;
+  flex: 1.2;
+  background-color: #A8C0D6;
+}
+.box-two > div:first-child +div{
+  padding: 40px 0;
+  width: 100%;
+  flex: 7;
+  background-color: #A8C0D6;
+  border-radius: 0px 0px 20px 20px;
+  overflow: auto;
+}
+.scroll{
+  display: inline-block;
+  width: 150px;
+  height: 200px;  
+  
+  overflow-y: scroll;
+  
+  box-sizing: border-box;
+  color: white;
+  font-family: 'Nanum Gothic';
+  background-color: rgba(0,0,0,0.8);
+}
+/* 스크롤바 설정*/
+.box2::-webkit-scrollbar{
+    width: 10px;
+}
+
+/* 스크롤바 막대 설정*/
+.box2::-webkit-scrollbar-thumb{
+    background: linear-gradient( #A8C0D6,#eceff1);
+    border-radius: 25px;
+}
+
+/* 스크롤바 뒷 배경 설정*/
+.box2::-webkit-scrollbar-track{
+    background-color: transparent;
+}
+.box-two > div:first-child +div+div{
+  border-radius: 20px 20px 20px 20px;
+  width: 100%;
+  flex: 2;
+  
+  margin-top: 10px;
+}
+
+
+/*오른쪽 그리드 나누기2 끝*/
+.gap-box{
+  background: white;
+  height: 10px;
+}
+.border-black{
+  border: 1px solid #BED0DE;
+  
+}
+.border-black2{
+  border: 1px solid #A8C0D6;
+  
+}
+.border-blacktop{
+  border: 1px solid #BED0DE;
+  border-radius: 20px 20px 0px 0px;
+  text-align: center;
+  line-height : 70px;
+}
+.border-blackbottom{
+  border: 1px solid #BED0DE;
+  border-radius: 0px 0px 20px 20px;
+}
+.border-white{
+  
+  border: 1px solid white;
+}
+hr{
+  background-color: black;
+  height: 1px;
+  width: 90%;
+  border: 0;
+}
+/*오른쪽 채팅창*/
+a {
+  text-decoration: none;
+}
+
+.box-two .chat {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.box-two .chat .icon {
+  position: relative;
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #eee;
+}
+.box-two .chat .icon > img{
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 70%;  
+  overflow: hidden;  
+}
+
+.box-two .chat .icon i {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  font-size: 2.5rem;
+  color: #aaa;
+  transform: translateX(-50%);
+}
+
+.box-two .chat .textbox {
+  position: relative;
+  display: inline-block;
+  max-width: calc(100% - 70px);
+  padding: 10px;
+  margin-top: 7px;
+  font-size: 13px;
+  border-radius: 10px;
+}
+
+.box-two .chat .textbox::before {
+  position: absolute;
+  display: block;
+  top: 0;
+  font-size: 1.5rem;
+}
+
+.box-two .ch1 .textbox {
+  margin-left: 20px;
+  background-color: #ddd;
+}
+
+.box-two .ch1 .textbox::before {
+  left: -15px;
+  content: "◀";
+  color: #ddd;
+}
+
+.box-two .ch2 {
+  flex-direction: row-reverse;
+}
+
+.box-two .ch2 .textbox {
+  margin-right: 20px;
+  background-color: #F9EB54;
+}
+
+.box-two .ch2 .textbox::before {
+  right: -15px;
+  content: "▶";
+  color: #F9EB54;
+}
+
+
+.box-two .top-bar{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;  
+  margin-left: 10px;
+  margin-right: 10px;
+  align-items: center;   
+}
+.box-two .top-bar .image{   
+  height: 50px;
+  width: 50px;
+  margin-left: 20px;
+  margin-top: 5px; 
+}
+.box-two .top-bar .image > img{
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 70%;  
+  overflow: hidden;  
+}
+.box-two .top-bar .name{
+  margin-left: 10px;
+}
+
+/*오른쪽 채팅방 텍스트 입력*/
+input[type=text] {
+  width: 90%;
+	height: 110px;
+  font-size: 20px;
+  padding-left: 10px;
+  border: 0;
+  border-radius: 15px;
+  outline: none;
+  background: rgb(233, 233, 233);  
+}
+/*오른쪽 채팅방 버튼*/
+.btnlayout{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+button {
+  margin: 10px; 
+}
+.w-btn {
+  position: relative;
+  border: none;
+  display: inline-block;
+  padding: 15px 30px;
+  border-radius: 15px;
+  font-family: "paybooc-Light", sans-serif;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.w-btn-outline {
+  position: relative;
+  padding: 15px 30px;
+  border-radius: 15px;
+  font-family: "paybooc-Light", sans-serif;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+}
+.w-btn-yellow {
+  background-color: #fce205;
+  color: #6e6e6e;
+}
+.w-btn-yellow-outline {
+  border: 3px solid #fce205;
+  color: #6e6e6e;
+}
+
+.w-btn-yellow-outline:hover {
+  background-color: #fce205;
+  color: #6e6e6e;
+}
+.w-btn:hover {
+  letter-spacing: 2px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.w-btn-outline:hover {
+  letter-spacing: 2px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+.w-btn:active {
+  transform: scale(1.5);
+}
+
+.w-btn-outline:active {
+  transform: scale(1.5);
+}
+
+
+/*왼쪽 리스트*/
+.chat-title{
+  text-align: center;  
+  width: 100%;
+  height: 70px;
+  background: #eee;
+  border: 1px solid black;
+  position: sticky;
+  
+}
+main{
+  /* 친구 리스트를 flex box로 레이아웃 구성 */
+  grid-area: main; 
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 0.125rem; /* 16 브라우저 기준 2px */
+  overflow: auto;
+}
+ul{
+  list-style: none;
+  padding-left: 0;
+  /* unordered list 기본 스타일 제거(점, 들여쓰기) */
+}
+/* 제목(h2와 p) 사이즈 재정의 */
+.profile-title > *{
+  font-size: 0.75rem; /* 16px 브라우저 기준 12px 의미*/
+  color: gray;
+  display: inline-block;
+  margin: 0;
+}
+li{
+  /* 각각의 프로필을 flex box로 구성 */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 1.25rem; /* 16 브라우저 기준 20px */
+  margin-top: 0.625rem; /* 16 브라우저 기준 10px */  
+  align-items: center;
+  border: 1px solid #BED0DE
+}
+li > img{
+  /* 프로필사진 사이즈 조절 */
+  width: 100px;
+  border-radius: 70%;
+  object-fit: cover;
+}
+.profile > *{
+  /* 이름과 프로필 사진의 margin 조절 */
+  margin: 0.3125rem; /* 5px (16px 브라우저 기준) */
+  margin-left: 0.625rem;
+}
+.profile > *:first-of-type{
+  /* 이름 스타일 변경 : 굵게 처리 */
+  font-weight: bold;
+  font-size: 0.875rem; /* 16 브라우저 기준 14px */
+} 
+.profile > *:nth-of-type(2){
+  /* 상태메시지 스타일 변경*/
+  color: gray;
+  font-size: 0.75rem; /* 16 브라우저 기준 12px */
+}
+.profile-title{
+  border-top: 1px solid rgb(202, 200, 200);
+  padding-top: 0.625rem;
+}
+.modal {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: none;
+  }
+ 
+
+
+  .modal_body {
+ 
+  background: rgba( 69, 139, 197, 0.6 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );            
+  backdrop-filter: blur( 13.5px );
+  -webkit-backdrop-filter: blur( 13.5px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  width: 400px;
+  height: 500px;
+  position: relative;
+  top: -100px;
+  padding: 10px;
+  text-align: center;
+  }
+
+
+  .modal_body .com1{
+      width:100%;
+      height:10%
+  }
+  .close-area {
+  display: inline;
+  float: right;
+  padding-right: 10px;
+  cursor: pointer;
+  text-shadow: 1px 1px 2px gray;
+  color: white;
+  }
+  .titlem{
+      display: inline; 
+  }
+
+  .modal_body .com2{
+  width: 100%;
+  height:80%;
+  
+  display: inline-block;
+  overflow: auto;
+  }
+  ul{
+  list-style: none;
+  padding-left: 0;
+  /* unordered list 기본 스타일 제거(점, 들여쓰기) */
+  }
+  .lim{
+  /* 각각의 프로필을 flex box로 구성 */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 1.25rem; /* 16 브라우저 기준 20px */
+  margin-top: 0.625rem; /* 16 브라우저 기준 10px */  
+  align-items: center;
+  border: 1px solid #BED0DE
+  }
+  .lim > img{
+  /* 프로필사진 사이즈 조절 */
+  width: 60px;
+  border-radius: 70%;
+  object-fit: cover;
+  }
+  .profilem > *{
+  /* 이름과 프로필 사진의 margin 조절 */
+  margin: 5px; /* 5px (16px 브라우저 기준) */
+  margin-left:15px;
+  }
+  .profilem > *:first-of-type{
+  /* 이름 스타일 변경 : 굵게 처리 */
+  font-weight: bold;
+  font-size: 15px; /* 16 브라우저 기준 14px */
+  } 
+  .profilem > *:nth-of-type(2){
+  /* 상태메시지 스타일 변경*/
+  color: gray;
+  font-size: 12px; /* 16 브라우저 기준 12px */
+  }
+  .modal_body .com3{
+  width: 100%;
+  height:10%;            
+  text-align: left;
+  display: inline-block;
+  }
+  .minput{
+  width: 40%;
+  height: 25px;
+  font-size: 15px;
+  border: 0;
+  border-radius: 15px;
+  outline: none;
+  padding-left: 10px;
+  background-color: rgb(233, 233, 233);
+  }
+  .m-btn {
+  position: relative;
+  border: none;
+  display: inline-block;
+  padding: 6px 25px;
+  border-radius: 15px;
+  font-family: "paybooc-Light", sans-serif;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+  }
+  
+  .m-btn-indigo {
+  background-color: aliceblue;
+  color: #1e6b7b;
+  }
