@@ -1,5 +1,7 @@
 # Travelog
 
+<<Apache, PHP, MySQL, HTML, CSS, JavaScript, AJAX>>
+
 클릭가능한 지도를 활용한 사진공유 웹 플랫폼 입니다.
 
 프로젝트을 소개하는 travelog.pdf를 첨부하였습니다.
